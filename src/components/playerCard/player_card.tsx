@@ -1,20 +1,13 @@
-// components/player/player_card.tsx
 "use client";
+
 import "./player_card_styles.scss";
-import { PlayerAccount } from "@/types/responses";
+import { PlayerAccount, MMRData } from "@/types/responses";
 import Image from "next/image";
+import { PlayerRank } from "./PlayerRank";
 
 interface PlayerCardProps {
   account: PlayerAccount;
-  mmr?: {
-    current_data: {
-      currenttierpatched: string;
-      elo: number;
-    };
-    highest_rank: {
-      patched_tier: string;
-    };
-  };
+  mmr?: MMRData;
 }
 
 export function PlayerCard({ account, mmr }: PlayerCardProps) {
@@ -34,31 +27,11 @@ export function PlayerCard({ account, mmr }: PlayerCardProps) {
             <span className="player-card__tag">#{account.tag}</span>
           </h1>
           <p className="player-card__level">Уровень {account.account_level}</p>
-          <p className="player-card__region">{account.region}</p>
+          <p className="player-card__region">{account.region.toUpperCase()}</p>
         </div>
       </div>
 
-      {mmr && mmr.current_data && (
-        <div className="player-card__rank">
-          <div className="player-card__rank-item">
-            <span className="player-card__rank-label">Текущий ранг</span>
-            <span className="player-card__rank-value">
-              {mmr.current_data.currenttierpatched || "Unranked"}
-            </span>
-            <span className="player-card__rank-elo">
-              {mmr.current_data.elo || 0} эло
-            </span>
-          </div>
-          {mmr.highest_rank && (
-            <div className="player-card__rank-item">
-              <span className="player-card__rank-label">Пик</span>
-              <span className="player-card__rank-value">
-                {mmr.highest_rank.patched_tier || "Unknown"}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
+      <PlayerRank mmr={mmr} />
     </div>
   );
 }

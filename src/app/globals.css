@@ -106,11 +106,31 @@ body {
 }
 
 /* ===== Статистика ===== */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stats-section__group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stats-section__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #aaaacc;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-bottom: 24px;
 }
 
 .stat-card {
@@ -135,6 +155,13 @@ body {
   margin-top: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.stat-card__hint {
+  display: block;
+  font-size: 11px;
+  color: #555577;
+  margin-top: 2px;
 }
 
 /* ===== Матчи ===== */
