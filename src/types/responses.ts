@@ -77,6 +77,11 @@ export interface MatchesV4Response {
     queue: { id: string; name: string | null; mode_type: string | null };
     started_at: string;
     game_length_in_ms: number;
+    game_version?: string;
+    is_completed?: boolean;
+    season?: { id: string; short: string };
+    region?: string | null;
+    platform?: string;
   };
   players: Array<{
     puuid: string;
@@ -84,8 +89,14 @@ export interface MatchesV4Response {
     tag: string;
     team_id: string;
     agent: { id: string; name: string };
+    tier?: TierInfo;
+    account_level?: number;
     stats: MatchPlayerStats & {
       damage: { dealt: number; received: number };
+    };
+    economy?: {
+      spent: { overall: number };
+      loadout_value: { overall: number };
     };
   }>;
   teams: Array<{
@@ -93,7 +104,15 @@ export interface MatchesV4Response {
     won: boolean;
     rounds: { won: number; lost: number };
   }>;
+  rounds?: Array<{
+    id: number;
+    result: string;
+    winning_team: string;
+    ceremony: string;
+  }>;
 }
+
+export type MatchDetail = MatchesV4Response;
 
 export interface StoredMatch {
   meta: {
@@ -146,5 +165,8 @@ export interface PlayerStats {
 }
 
 export interface LifetimeStats extends PlayerStats {
-  totalStoredMatches: number;
+  /** Matches actually loaded and aggregated */
+  fetchedMatches: number;
+  /** Matches Henrik has in stored DB (often smaller than real career) */
+  henrikStoredTotal?: number;
 }

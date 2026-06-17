@@ -24,12 +24,14 @@ function buildMatchQuery(options: {
   mode?: string;
   size?: number;
   start?: number;
+  page?: number;
 }): string {
   const params = new URLSearchParams();
 
   if (options.mode) params.set("mode", options.mode);
   if (options.size) params.set("size", String(options.size));
-  if (options.start) params.set("start", String(options.start));
+  if (options.start !== undefined) params.set("start", String(options.start));
+  if (options.page) params.set("page", String(options.page));
 
   const query = params.toString();
   return query ? `?${query}` : "";
@@ -60,15 +62,43 @@ export async function fetchNormalizedMatches(
     .filter((match): match is NormalizedMatch => match !== null);
 }
 
+export async function fetchAllNormalizedMatches(
+  options: FetchMatchesOptions & { maxMatches?: number },
+): Promise<NormalizedMatch[]> {
+  const pageSize = 20;
+  const maxMatches = options.maxMatches ?? 200;
+  const collected: NormalizedMatch[] = [];
+  let start = 0;
+
+  while (collected.length < maxMatches) {
+    const batch = await fetchNormalizedMatches({
+      ...options,
+      size: pageSize,
+      start,
+    });
+
+    if (!batch.length) break;
+
+    collected.push(...batch);
+
+    if (batch.length < pageSize) break;
+
+    start += pageSize;
+  }
+
+  return collected;
+}
+
 export async function fetchStoredMatches(
   region: string,
   name: string,
   tag: string,
-  options?: { mode?: string; size?: number },
+  options?: { mode?: string; size?: number; page?: number },
 ): Promise<StoredMatchesResult> {
   const query = buildMatchQuery({
     mode: options?.mode,
-    size: options?.size ?? 100,
+    size: options?.size ?? 50,
+    page: options?.page,
   });
 
   const res = await fetch(
@@ -86,6 +116,41 @@ export async function fetchStoredMatches(
     matches: (json.data ?? []) as StoredMatch[],
     total: json.results?.total ?? json.data?.length ?? 0,
     returned: json.results?.returned ?? json.data?.length ?? 0,
+  };
+}
+
+export async function fetchAllStoredMatches(
+  region: string,
+  name: string,
+  tag: string,
+  options?: { mode?: string; pageSize?: number },
+): Promise<StoredMatchesResult> {
+  const pageSize = options?.pageSize ?? 50;
+  const allMatches: StoredMatch[] = [];
+  let total = 0;
+  let page = 1;
+
+  while (true) {
+    const batch = await fetchStoredMatches(region, name, tag, {
+      mode: options?.mode,
+      size: pageSize,
+      page,
+    });
+
+    total = batch.total;
+    allMatches.push(...batch.matches);
+
+    if (allMatches.length >= total || batch.matches.length < pageSize) {
+      break;
+    }
+
+    page++;
+  }
+
+  return {
+    matches: allMatches,
+    total,
+    returned: allMatches.length,
   };
 }
 

@@ -1,5 +1,12 @@
 // components/match/match_card_styles.scss
 
+.match-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .match-card {
   background: #1a1a2e;
   border-radius: 10px;

@@ -35,14 +35,14 @@ export function StatsGrid({ recentStats, lifetimeStats }: StatsGridProps) {
       {lifetimeStats && (
         <div className="stats-section__group">
           <h3 className="stats-section__title">
-            All-time (competitive, до {lifetimeStats.totalStoredMatches})
+            All-time ({lifetimeStats.fetchedMatches} матчей
+            {lifetimeStats.henrikStoredTotal !== undefined
+              ? `, в базе Henrik: ${lifetimeStats.henrikStoredTotal}`
+              : ""}
+            )
           </h3>
           <div className="stats-grid">
-            <StatCard
-              value={lifetimeStats.totalMatches}
-              label="Матчей"
-              hint={`из ${lifetimeStats.totalStoredMatches}`}
-            />
+            <StatCard value={lifetimeStats.totalMatches} label="Матчей" />
             <StatCard
               value={formatPercent(lifetimeStats.winRate)}
               label="Винрейт"

@@ -66,7 +66,7 @@ export function PlayerStatsPage() {
         name,
         tag,
         mode: "competitive",
-        limit: 100,
+        maxMatches: 200,
       }),
     enabled: !!account,
   });
@@ -86,6 +86,7 @@ export function PlayerStatsPage() {
         <StatsGrid recentStats={recentStats} lifetimeStats={lifetimeStats} />
         <MatchesList
           matches={matches}
+          region={region}
           isLoading={matchesLoading}
           page={0}
           hasNext={false}

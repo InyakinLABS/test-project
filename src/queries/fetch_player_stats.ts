@@ -1,7 +1,11 @@
 import { normalizeStoredMatch } from "@/lib/match_utils";
 import { aggregateMatchStats } from "@/lib/stats_utils";
-import { fetchNormalizedMatches, fetchStoredMatches } from "./fetch_matches";
-import { LifetimeStats, PlayerStats } from "@/types/responses";
+import {
+  fetchAllNormalizedMatches,
+  fetchAllStoredMatches,
+  fetchNormalizedMatches,
+} from "./fetch_matches";
+import { LifetimeStats, NormalizedMatch, PlayerStats } from "@/types/responses";
 
 export interface FetchStatsOptions {
   region: string;
@@ -9,6 +13,17 @@ export interface FetchStatsOptions {
   tag: string;
   mode?: string;
   limit?: number;
+  maxMatches?: number;
+}
+
+function mergeMatchesById(matches: NormalizedMatch[]): NormalizedMatch[] {
+  const byId = new Map<string, NormalizedMatch>();
+
+  for (const match of matches) {
+    byId.set(match.id, match);
+  }
+
+  return Array.from(byId.values());
 }
 
 export async function fetchRecentPlayerStats(
@@ -29,22 +44,30 @@ export async function fetchRecentPlayerStats(
 export async function fetchLifetimeStats(
   options: FetchStatsOptions,
 ): Promise<LifetimeStats> {
-  const stored = await fetchStoredMatches(
-    options.region,
-    options.name,
-    options.tag,
-    {
-      mode: options.mode || "competitive",
-      size: options.limit ?? 100,
-    },
-  );
+  const mode = options.mode || "competitive";
 
-  const normalized = stored.matches.map(normalizeStoredMatch);
-  const stats = aggregateMatchStats(normalized);
+  const [liveMatches, stored] = await Promise.all([
+    fetchAllNormalizedMatches({
+      region: options.region,
+      name: options.name,
+      tag: options.tag,
+      mode,
+      maxMatches: options.maxMatches ?? 200,
+    }),
+    fetchAllStoredMatches(options.region, options.name, options.tag, {
+      mode,
+      pageSize: 50,
+    }).catch(() => ({ matches: [], total: 0, returned: 0 })),
+  ]);
+
+  const storedNormalized = stored.matches.map(normalizeStoredMatch);
+  const merged = mergeMatchesById([...liveMatches, ...storedNormalized]);
+  const stats = aggregateMatchStats(merged);
 
   return {
     ...stats,
-    totalStoredMatches: stored.total,
+    fetchedMatches: merged.length,
+    henrikStoredTotal: stored.total,
   };
 }
 

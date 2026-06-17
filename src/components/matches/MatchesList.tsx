@@ -5,6 +5,7 @@ import { Pagination } from "./Pagination";
 
 interface MatchesListProps {
   matches: NormalizedMatch[];
+  region: string;
   isLoading: boolean;
   page: number;
   hasNext: boolean;
@@ -14,6 +15,7 @@ interface MatchesListProps {
 
 export function MatchesList({
   matches,
+  region,
   isLoading,
   page,
   hasNext,
@@ -29,7 +31,7 @@ export function MatchesList({
       ) : matches.length ? (
         <>
           {matches.map((match) => (
-            <MatchCard key={match.id} match={match} />
+            <MatchCard key={match.id} match={match} region={region} />
           ))}
           <Pagination
             page={page}

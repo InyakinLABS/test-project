@@ -63,6 +63,7 @@ export function PlayerMatchesPage() {
         />
         <MatchesList
           matches={matches}
+          region={region}
           isLoading={matchesLoading}
           page={page}
           hasNext={matches.length === PAGE_SIZE}
