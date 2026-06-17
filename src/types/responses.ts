@@ -4,6 +4,7 @@ export interface PlayerAccount {
   tag: string;
   region: string;
   account_level: number;
+  last_updated: string;
   card: {
     small: string;
     large: string;

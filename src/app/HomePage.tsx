@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-
 import { fetchAccount, fetchMMR } from "@/queries/fetch_player";
 import { fetchNormalizedMatches } from "@/queries/fetch_matches";
 import { fetchRecentPlayerStats } from "@/queries/fetch_player_stats";
@@ -26,7 +25,7 @@ export function HomePage() {
   const [tag, setTag] = useState(initialTag);
   const [searchName, setSearchName] = useState(initialName);
   const [searchTag, setSearchTag] = useState(initialTag);
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState("competitive");
   const [page, setPage] = useState(0);
 
   const {
@@ -73,6 +72,7 @@ export function HomePage() {
       }),
     enabled: !!account,
   });
+  console.log(account);
 
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();

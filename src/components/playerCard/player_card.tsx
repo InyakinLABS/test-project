@@ -11,6 +11,7 @@ interface PlayerCardProps {
 }
 
 export function PlayerCard({ account, mmr }: PlayerCardProps) {
+  console.log(account);
   return (
     <div className="player-card">
       <div className="player-card__header">
@@ -28,6 +29,7 @@ export function PlayerCard({ account, mmr }: PlayerCardProps) {
           </h1>
           <p className="player-card__level">Уровень {account.account_level}</p>
           <p className="player-card__region">{account.region.toUpperCase()}</p>
+          <p>{account.last_updated}</p>
         </div>
       </div>
 
