@@ -9,7 +9,7 @@ interface StatsGridProps {
 
 export function StatsGrid({ recentStats, lifetimeStats }: StatsGridProps) {
   if (!recentStats && !lifetimeStats) return null;
-
+  console.log(recentStats);
   return (
     <div className="stats-section">
       {recentStats && (
@@ -23,10 +23,7 @@ export function StatsGrid({ recentStats, lifetimeStats }: StatsGridProps) {
             />
             <StatCard value={formatKD(recentStats.kd)} label="KD" />
             <StatCard value={formatKD(recentStats.kda)} label="KDA" />
-            <StatCard
-              value={formatPercent(recentStats.avgHS)}
-              label="HS%"
-            />
+            <StatCard value={formatPercent(recentStats.avgHS)} label="HS%" />
             <StatCard value={formatACS(recentStats.avgACS)} label="ACS" />
           </div>
         </div>
@@ -47,15 +44,9 @@ export function StatsGrid({ recentStats, lifetimeStats }: StatsGridProps) {
               value={formatPercent(lifetimeStats.winRate)}
               label="Винрейт"
             />
-            <StatCard
-              value={formatKD(lifetimeStats.kd)}
-              label="All-time KD"
-            />
+            <StatCard value={formatKD(lifetimeStats.kd)} label="All-time KD" />
             <StatCard value={formatKD(lifetimeStats.kda)} label="KDA" />
-            <StatCard
-              value={formatPercent(lifetimeStats.avgHS)}
-              label="HS%"
-            />
+            <StatCard value={formatPercent(lifetimeStats.avgHS)} label="HS%" />
             <StatCard value={formatACS(lifetimeStats.avgACS)} label="ACS" />
           </div>
         </div>

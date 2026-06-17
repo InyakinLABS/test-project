@@ -40,7 +40,7 @@ export function PlayerStatsPage() {
         region,
         name,
         tag,
-        size: 10,
+        size: 30,
         start: 0,
       }),
     enabled: !!account,
@@ -53,7 +53,7 @@ export function PlayerStatsPage() {
         region,
         name,
         tag,
-        limit: 20,
+        limit: 30,
       }),
     enabled: !!account,
   });

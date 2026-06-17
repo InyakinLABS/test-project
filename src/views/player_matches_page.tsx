@@ -11,7 +11,7 @@ import { MatchesList } from "@/components/matches/MatchesList";
 import { Loader } from "@/components/common/Loader";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 30;
 
 export function PlayerMatchesPage() {
   const params = useParams();

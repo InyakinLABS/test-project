@@ -8,7 +8,7 @@ export function aggregateMatchStats(matches: NormalizedMatch[]): PlayerStats {
   let totalHS = 0;
   let totalACS = 0;
   let wins = 0;
-
+  console.log(matches);
   for (const match of matches) {
     const stats = match.stats;
     totalKills += stats.kills;
@@ -16,7 +16,9 @@ export function aggregateMatchStats(matches: NormalizedMatch[]): PlayerStats {
     totalAssists += stats.assists;
     totalHS += getMatchHeadshotPercent(match);
     totalACS += getMatchACS(match);
-    if (match.won) wins++;
+    if (match.won) {
+      wins++;
+    }
   }
 
   const count = matches.length;

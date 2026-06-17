@@ -43,7 +43,7 @@ export async function fetchMatchesV4(
   const platform = options.platform ?? DEFAULT_PLATFORM;
   const query = buildMatchQuery({
     mode: options.mode,
-    size: options.size ?? 10,
+    size: options.size ?? 30,
     start: options.start ?? 0,
   });
 
@@ -60,33 +60,6 @@ export async function fetchNormalizedMatches(
   return matches
     .map((match) => normalizeV4Match(match, options.name, options.tag))
     .filter((match): match is NormalizedMatch => match !== null);
-}
-
-export async function fetchAllNormalizedMatches(
-  options: FetchMatchesOptions & { maxMatches?: number },
-): Promise<NormalizedMatch[]> {
-  const pageSize = 20;
-  const maxMatches = options.maxMatches ?? 200;
-  const collected: NormalizedMatch[] = [];
-  let start = 0;
-
-  while (collected.length < maxMatches) {
-    const batch = await fetchNormalizedMatches({
-      ...options,
-      size: pageSize,
-      start,
-    });
-
-    if (!batch.length) break;
-
-    collected.push(...batch);
-
-    if (batch.length < pageSize) break;
-
-    start += pageSize;
-  }
-
-  return collected;
 }
 
 export async function fetchStoredMatches(

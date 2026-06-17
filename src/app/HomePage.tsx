@@ -6,10 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchAccount, fetchMMR } from "@/queries/fetch_player";
 import { fetchNormalizedMatches } from "@/queries/fetch_matches";
-import {
-  fetchLifetimeStats,
-  fetchRecentPlayerStats,
-} from "@/queries/fetch_player_stats";
+import { fetchRecentPlayerStats } from "@/queries/fetch_player_stats";
 import { PlayerCard } from "@/components/playerCard/player_card";
 import { SearchForm } from "@/components/search/SearchForm";
 import { ModeFilter } from "@/components/filters/ModeFilter";
@@ -18,12 +15,12 @@ import { MatchesList } from "@/components/matches/MatchesList";
 import { Loader } from "@/components/common/Loader";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 30;
 
 export function HomePage() {
   const searchParams = useSearchParams();
-  const initialName = searchParams?.get("name") ?? "sosiska";
-  const initialTag = searchParams?.get("tag") ?? "8812";
+  const initialName = searchParams?.get("name") || "";
+  const initialTag = searchParams?.get("tag") || "";
 
   const [name, setName] = useState(initialName);
   const [tag, setTag] = useState(initialTag);
@@ -58,7 +55,7 @@ export function HomePage() {
         name: searchName,
         tag: searchTag,
         mode: mode || undefined,
-        size: PAGE_SIZE,
+        size: 30,
         start: page * PAGE_SIZE,
       }),
     enabled: !!account,
@@ -72,20 +69,7 @@ export function HomePage() {
         name: searchName,
         tag: searchTag,
         mode: mode || undefined,
-        limit: 20,
-      }),
-    enabled: !!account,
-  });
-
-  const { data: lifetimeStats } = useQuery({
-    queryKey: ["stats-lifetime", region, searchName, searchTag, mode],
-    queryFn: () =>
-      fetchLifetimeStats({
-        region,
-        name: searchName,
-        tag: searchTag,
-        mode: mode || "competitive",
-        maxMatches: 200,
+        limit: 30,
       }),
     enabled: !!account,
   });
@@ -126,10 +110,7 @@ export function HomePage() {
             <PlayerCard account={account} mmr={mmr} />
             {mmrLoading && <Loader text="Загрузка ранга..." />}
 
-            <StatsGrid
-              recentStats={recentStats}
-              lifetimeStats={lifetimeStats}
-            />
+            <StatsGrid recentStats={recentStats} />
 
             <MatchesList
               matches={matches}
