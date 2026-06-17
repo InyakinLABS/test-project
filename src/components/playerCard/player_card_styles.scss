@@ -1,0 +1,81 @@
+// components/player/player_card_styles.scss
+.player-card {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #2a2a4a;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid #6c5ce7;
+    object-fit: cover;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  &__tag {
+    color: #6c5ce7;
+    font-weight: 400;
+  }
+
+  &__level {
+    color: #8888aa;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  &__region {
+    color: #666688;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  &__rank {
+    display: flex;
+    gap: 32px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #2a2a4a;
+  }
+
+  &__rank-current,
+  &__rank-peak {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__rank-label {
+    color: #8888aa;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__rank-value {
+    color: #6c5ce7;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  &__rank-elo {
+    color: #8888aa;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,158 @@
+// components/match/match_card_styles.scss
+
+.match-card {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-left: 4px solid #6c5ce7;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #222244;
+  }
+
+  &--win {
+    border-left-color: #00d2ff;
+  }
+
+  &--loss {
+    border-left-color: #ff6b6b;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__info {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  &__mode {
+    color: #666688;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__map {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  &__time {
+    color: #555577;
+    font-size: 12px;
+  }
+
+  &__result {
+    text-align: right;
+  }
+
+  &__score {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  &__status {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 1px;
+
+    &--win {
+      color: #00d2ff;
+    }
+
+    &--loss {
+      color: #ff6b6b;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #2a2a4a;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  &__agent {
+    color: #aabbdd;
+    font-size: 13px;
+    background: #2a2a4a;
+    padding: 2px 12px;
+    border-radius: 12px;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 14px;
+    color: #8888aa;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  &__kda {
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  &__hs {
+    color: #ffd93d;
+  }
+
+  &__acs {
+    color: #6bcb77;
+  }
+}
+
+/* Адаптив */
+@media (max-width: 600px) {
+  .match-card {
+    padding: 12px 14px;
+  }
+
+  .match-card__top {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .match-card__result {
+    text-align: left;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .match-card__score {
+    font-size: 15px;
+  }
+
+  .match-card__status {
+    font-size: 11px;
+    margin-top: 0;
+  }
+
+  .match-card__bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .match-card__stats {
+    justify-content: space-between;
+  }
+}
